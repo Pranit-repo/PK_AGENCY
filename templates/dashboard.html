@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-header">
+    <div>
+        <h1>Businesses Dashboard</h1>
+        <p class="subtitle">Manage WhatsApp multi-tenant routing</p>
+    </div>
+    <button class="btn btn-primary" onclick="openBusinessModal()">
+        <i class="fa-solid fa-plus"></i> Add Business
+    </button>
+</div>
+
+<div class="business-grid" id="business-grid">
+    <!-- Populated by JS -->
+    <div class="loading">Loading businesses...</div>
+</div>
+
+<!-- Add Business Modal -->
+<div class="modal" id="business-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Add New Business</h2>
+            <button class="close-btn" onclick="closeBusinessModal()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form id="business-form" onsubmit="handleBusinessSubmit(event)">
+            <div class="form-group">
+                <label>Business Name</label>
+                <input type="text" id="b-name" required placeholder="e.g. Acme Corp">
+            </div>
+            <div class="form-group">
+                <label>WhatsApp Phone Number ID</label>
+                <input type="text" id="b-phone-id" required placeholder="1234567890">
+            </div>
+            <div class="form-group">
+                <label>Access Token</label>
+                <input type="password" id="b-access-token" required placeholder="EAAB...">
+            </div>
+            <div class="form-group">
+                <label>Verify Token (for Webhook)</label>
+                <input type="text" id="b-verify-token" required placeholder="my_secure_token_123">
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary w-100">Save Business</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Manage Salesmen Modal (Slide over) -->
+<div class="slide-over" id="salesmen-panel">
+    <div class="slide-header">
+        <h2 id="panel-business-name">Manage Salesmen</h2>
+        <button class="close-btn" onclick="closeSalesmenPanel()"><i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+    
+    <div class="salesmen-stats">
+        <div class="stat-pill">
+            <span id="salesmen-count">0</span> / 10 Salesmen
+        </div>
+    </div>
+
+    <form class="add-salesman-form" id="salesman-form" onsubmit="handleSalesmanSubmit(event)">
+        <div class="form-row">
+            <input type="text" id="s-name" placeholder="Name" required>
+            <input type="text" id="s-phone" placeholder="Phone (e.g. +12345)" required>
+            <button type="submit" class="btn btn-secondary"><i class="fa-solid fa-plus"></i> Add</button>
+        </div>
+    </form>
+
+    <div class="salesmen-list" id="salesmen-list">
+        <!-- Populated by JS -->
+    </div>
+</div>
+<div class="overlay" id="overlay" onclick="closeAllPanels()"></div>
+{% endblock %}
